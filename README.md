@@ -20,10 +20,52 @@ exp1_boolean_min_tb.v	Verilog testbench
 exp1_boolean_min.vcd	VCD waveform dump generated during simulation
 
 ## Verilog Program
+```
+module boolean_function (
+    input A, B, C, D,
+    output F
+);
+
+assign F = (~B & ~D) | (B & D);
+
+endmodule
+```
 
 
 
 ## TestBench Program
+```
+`timescale 1ns/1ps
+
+module tb_boolean_function;
+
+reg A, B, C, D;
+wire F;
+
+boolean_function uut (
+    .A(A),
+    .B(B),
+    .C(C),
+    .D(D),
+    .F(F)
+);
+
+initial begin
+    $monitor("A=%b B=%b C=%b D=%b | F=%b",
+              A, B, C, D, F);
+
+    {A,B,C,D} = 4'b0000;
+    repeat (16) begin
+        #10;
+        {A,B,C,D} = {A,B,C,D} + 1'b1;
+    end
+
+    #10;
+    $finish;
+end
+
+endmodule
+```
 
 
 
@@ -82,27 +124,15 @@ The Boolean function
 F(A,B,C,D)=Σm(0,2,5,7,8,10,13,15), which simplifies to F=B'D'+BD.
 was minimized to F=B'D'+BD.
 and successfully implemented using Verilog HDL.
+<img width="1920" height="1080" alt="Screenshot (26)" src="https://github.com/user-attachments/assets/2f6a6456-8c29-4bb2-8730-0716fe715cbb" />
+
 
 ## OUTPUT
+<img width="1302" height="685" alt="WhatsApp Image 2026-10-21 at 13 24 46" src="https://github.com/user-attachments/assets/5f8e860c-59d1-4683-883a-299c64498c67" />
 
 
 
 The design was compiled and simulated using Synopsys VCS, and the functionality was verified using DVE waveform analysis.
-7. Viva-Voce Questions
-1.	What is Boolean function minimization?
-2.	What is a minterm?
-3.	What is a Karnaugh map?
-4.	Why is Boolean minimization required?
-5.	What are universal gates?
-6.	What is the difference between SOP and POS?
-7.	What is the purpose of a Verilog testbench?
-8.	Why is a VCD file generated?
-9.	What is the purpose of ./simv?
-10.	What is the purpose of DVE?
-11.	What is the difference between simulation and synthesis?
-12.	Why are A and C absent from the minimized expression?
-13.	What is the purpose of $dumpfile?
-14.	What is the purpose of $dumpvars?
 
 Result
 Thus, the Boolean function was minimized, implemented using Verilog HDL, successfully simulated using Synopsys VCS, and verified using Synopsys DVE.
